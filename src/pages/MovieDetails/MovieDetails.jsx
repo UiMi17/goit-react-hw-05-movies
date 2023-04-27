@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
 import moviedbAPI from 'services/moviedbAPI';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
   const { id } = useParams();
+
+  const navigate = useNavigate();
+
+  const handleGoBackBtnClick = () => {
+    navigate(-1);
+  };
 
   useEffect(() => {
     console.log('render');
@@ -21,6 +27,9 @@ const MovieDetails = () => {
   return (
     movie && (
       <>
+        <button type="button" onClick={handleGoBackBtnClick}>
+          Go back
+        </button>
         <div>
           <img
             src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
