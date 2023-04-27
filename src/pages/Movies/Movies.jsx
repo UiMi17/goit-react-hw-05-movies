@@ -1,37 +1,53 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import moviedbAPI from 'services/moviedbAPI';
-import TrendingElement from 'pages/Trending/TrendingElement';
-import { Outlet } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import {
+  StyledTrendingElement,
+  StyledLink,
+} from 'components/Trending/StyledTrending';
+import { StyledForm, StyledInput, StyledButton } from './StyledMovies';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
+  const [searchQuery, setSearchQuery] = useSearchParams();
+  const query = searchQuery.get('query');
+  const location = useLocation();
 
-  const handleSearchBtnClick = ev => {
-    const query = ev.target.parentNode.children.search.value;
+  useEffect(() => {
+    if (query) {
+      moviedbAPI
+        .getMoviesByQuery(query)
+        .then(res => {
+          setMovies(res.data.results);
+        })
+        .catch(error => {
+          console.log(error.message);
+        });
+    }
+  }, [query]);
 
-    moviedbAPI
-      .getMoviesByQuery(query)
-      .then(res => {
-        setMovies(res.data.results);
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
+  const handleSearchFormSubmit = ev => {
+    ev.preventDefault();
+    setSearchQuery({ query: ev.currentTarget.search.value });
+    ev.currentTarget.reset();
   };
   return (
     <>
-      <div>
-        <input type="text" name="search" />
-        <button type="button" onClick={handleSearchBtnClick}>
-          Search
-        </button>
-      </div>
+      <StyledForm onSubmit={handleSearchFormSubmit}>
+        <StyledInput type="text" name="search" />
+        <StyledButton type="submit">Search</StyledButton>
+      </StyledForm>
       <ul>
         {movies.map(({ id, title }) => {
-          return <TrendingElement key={id} movieId={id} title={title} />;
+          return (
+            <StyledTrendingElement key={id}>
+              <StyledLink to={`${id}`} state={{ from: location }}>
+                {title}
+              </StyledLink>
+            </StyledTrendingElement>
+          );
         })}
       </ul>
-      <Outlet />
     </>
   );
 };

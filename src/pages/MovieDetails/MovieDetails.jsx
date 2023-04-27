@@ -1,19 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import moviedbAPI from 'services/moviedbAPI';
+import { StyledAdditionalInfoWrapper } from './StyledMovieDetails';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
   const { id } = useParams();
-
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleGoBackBtnClick = () => {
-    navigate(-1);
+    navigate(location.state.from.pathname + location.state.from.search);
   };
 
   useEffect(() => {
-    console.log('render');
     moviedbAPI
       .getMovieDetails(id)
       .then(res => {
@@ -26,7 +32,7 @@ const MovieDetails = () => {
 
   return (
     movie && (
-      <>
+      <div>
         <button type="button" onClick={handleGoBackBtnClick}>
           Go back
         </button>
@@ -58,13 +64,17 @@ const MovieDetails = () => {
             </li>
           </ul>
         </div>
-        <div>
+        <StyledAdditionalInfoWrapper>
           <p>Additional information</p>
-          <Link to="cast">Cast</Link> <br />
-          <Link to="reviews">Reviews</Link>
+          <Link to="cast" state={{ from: location.state.from }}>
+            Cast
+          </Link>
+          <Link to="reviews" state={{ from: location.state.from }}>
+            Reviews
+          </Link>
           <Outlet />
-        </div>
-      </>
+        </StyledAdditionalInfoWrapper>
+      </div>
     )
   );
 };

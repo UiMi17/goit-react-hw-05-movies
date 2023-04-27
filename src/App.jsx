@@ -1,14 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 import Layout from 'components/Layout/Layout';
 import React, { Suspense } from 'react';
-import Cast from 'pages/Cast/Cast';
+import Cast from 'components/Cast/Cast';
+import Reviews from 'components/Reviews/Reviews';
 
-const Trending = React.lazy(() => import('pages/Trending/Trending'));
+const Trending = React.lazy(() => import('components/Trending/Trending'));
 const Movies = React.lazy(() => import('pages/Movies/Movies'));
 const MovieDetails = React.lazy(() =>
   import('pages/MovieDetails/MovieDetails')
 );
-const Reviews = React.lazy(() => import('pages/Reviews/Reviews'));
 
 const App = () => {
   return (
