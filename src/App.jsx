@@ -4,7 +4,7 @@ import React, { Suspense } from 'react';
 import Cast from 'components/Cast/Cast';
 import Reviews from 'components/Reviews/Reviews';
 
-const Trending = React.lazy(() => import('components/Trending/Trending'));
+const Trending = React.lazy(() => import('pages/Trending/Trending'));
 const Movies = React.lazy(() => import('pages/Movies/Movies'));
 const MovieDetails = React.lazy(() =>
   import('pages/MovieDetails/MovieDetails')

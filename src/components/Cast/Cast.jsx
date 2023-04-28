@@ -7,15 +7,18 @@ const Cast = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    moviedbAPI.getMovieCast(id).then(res => {
-      setMovieCast(res.data.cast);
-    }).catch(error => {
-        console.log(error.message)
-    });
+    moviedbAPI
+      .getMovieCast(id)
+      .then(res => {
+        setMovieCast(res.data.cast);
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
   }, [id]);
 
   return (
-    movieCast && (
+    movieCast.length !== 0 && (
       <div>
         <ul>
           {movieCast.map(({ id, name, profile_path, character }) => {

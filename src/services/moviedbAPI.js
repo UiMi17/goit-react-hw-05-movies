@@ -1,32 +1,35 @@
 import axios from 'axios';
 
+const API_KEY = '389d29db9438a2b4858231f6a2a56446'
+axios.defaults.baseURL = 'https://api.themoviedb.org/3/'
+
 const getTrending = () => {
   return axios.get(
-    `https://api.themoviedb.org/3/trending/movie/day?api_key=389d29db9438a2b4858231f6a2a56446`
+    `trending/movie/day?api_key=${API_KEY}`
   );
 };
 
 const getMoviesByQuery = query => {
   return axios.get(
-    `https://api.themoviedb.org/3/search/movie?api_key=389d29db9438a2b4858231f6a2a56446&query=${query}`
+    `search/movie?api_key=${API_KEY}&query=${query}`
   );
 };
 
 const getMovieDetails = movieId => {
   return axios.get(
-    `https://api.themoviedb.org/3/movie/${movieId}?api_key=389d29db9438a2b4858231f6a2a56446`
+    `movie/${movieId}?api_key=${API_KEY}`
   );
 };
 
 const getMovieCast = movieId => {
   return axios.get(
-    `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=389d29db9438a2b4858231f6a2a56446`
+    `movie/${movieId}/credits?api_key=${API_KEY}`
   );
 };
 
 const getMovieReviews = movieId => {
   return axios.get(
-    `https://api.themoviedb.org/3/movie//${movieId}/reviews?api_key=389d29db9438a2b4858231f6a2a56446`
+    `movie//${movieId}/reviews?api_key=${API_KEY}`
   );
 };
 

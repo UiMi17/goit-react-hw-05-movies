@@ -4,11 +4,12 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import {
   StyledTrendingElement,
   StyledLink,
-} from 'components/Trending/StyledTrending';
+} from 'pages/Trending/StyledTrending';
 import { StyledForm, StyledInput, StyledButton } from './StyledMovies';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
+  const [inputValue, setInputValue] = useState('');
   const [searchQuery, setSearchQuery] = useSearchParams();
   const query = searchQuery.get('query');
   const location = useLocation();
@@ -31,11 +32,19 @@ const Movies = () => {
     setSearchQuery({ query: ev.currentTarget.search.value });
     ev.currentTarget.reset();
   };
+
+  const handleInputChange = ev => {
+    if (ev.target) {
+      setInputValue(ev.target.value.trim());
+    }
+  };
   return (
     <>
       <StyledForm onSubmit={handleSearchFormSubmit}>
-        <StyledInput type="text" name="search" />
-        <StyledButton type="submit">Search</StyledButton>
+        <StyledInput type="text" name="search" onChange={handleInputChange} />
+        <StyledButton type="submit" disabled={!inputValue}>
+          Search
+        </StyledButton>
       </StyledForm>
       <ul>
         {movies.map(({ id, title }) => {

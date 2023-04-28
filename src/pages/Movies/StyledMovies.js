@@ -27,4 +27,7 @@ export const StyledButton = styled.button`
   &:hover {
     background-color: #0066cc;
   }
+  &:disabled {
+    background-color: gray;
+  }
 `;
